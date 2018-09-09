@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+
+<body style="font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+line-height: 1.5;
+font-weight: 300;
+background-color: #fdfdfd;">
+
+<header style="padding-left: 15px; margin-left: 12%;margin-right: 12%"><h2>Understanding  L1 and L2 NORM through Visualization.</header>
+   
+    
+<div style="padding-left: 15px; margin-left: 12%;margin-right: 12%"><img src="images/out1.gif" width="40%"><img src="images/out2.gif" width="40%">
+<p><b style="font-weight:600">NOTE:</b> The circle above has no technical meaning in case you are wondering.</p></div>
+
+
+
+<div style="padding-left: 15px; padding-top: 5px;margin-left: 12%;margin-right: 12%">
+ <div style="padding-left: 8px"><p>In this post i will try to discuss intuition behind L2 norm and L1 norm working in context of Linear Regression. Although
+    L2 norm and L1 norm are used quite heavily in machine learning industry with various loss functions
+    We will discuss it  here in context of Linear Regression.
+
+    In case of Linear Regression Total cost is:</p>
+    <img src="images/total_cost.png"style="padding-top:5px" width=50% >
+    </div>
+    
+
+    <div><p>RSS is the main loss function used to estimate the cost of fitting data and qualitavely measures  
+    the mean data line across all data points.</p></div>
+    <div><p>We suppose we have two features only ,no constant feature (meaning no intercept ) for now and corresponding
+    two weights being w_0 and w_1.Then RSS(residual squares sum)for this case  becomes :</p>
+    <img src="images/rss.png" width=50%>
+    </div>
+    <div>
+        <p>L2 norm is sum of the square of the weights and hence for this case it becomes:</p>
+        <img src="images/L2.png">
+    </div>
+        <div>L2 norm and L1 norm are the indirect losses and not actually decreases the cost of fitting model on the 
+        training dataset but helps the model being more robust to the noise present in data and hence
+        do well on the test dataset.
+        Hence very useful when we have limited data unlike of datsets used with deep neural networks which require
+        very large datasets in the first place to learn something  useful able to model the data because of the large number of 
+        parameters used to estimate.
+        </div>
+
+
+
+        <div><p>Lambda is a hyperparameter which is estimated over the validation dataset and different for the different datasets.
+        and measures the percentage of the L2 or L1 norm to be included in the total cost.</p></div>
+
+
+      <h3>L2 NORM</h3>  
+        
+       <p> We have to decrease the <b style="font-weight: 600">L2 norm</b> also to decrease the total_cost, so this treatment remains useful along with RSS combined.
+        Both <b>w_0</b> and <b>w_1</b> are independent variables and <b>Loss</b> is dependent variable here. Although we contain 3 variables
+        here but we will plot them in 2d for easy visualization.</p>
+
+
+
+        <p>We will use vanilla Gradient descent with a fixed learning rate to minimise the loss which includes finding
+        derivatives of the independent variables w.r.t Loss .</p>
+        <div><img src="images/gradient_descent.png" width=50% ></div>
+
+       <div ><p> Let us see how L2 norm behaves like:<div><img src="images/L2_norm.png" width=50% ></div></p></div>
+
+        <div ><p> For L2 norm gradient descent step  looks like this :</p><img src="images/L2_update.png" width=50% ></div>
+
+        <div style="font-family: sans-serif;padding-top: 6px ">
+                <p>Use <b>step</b> button to iteratively update the weights and try new values by filling <b>w_0</b> and <b>w_1</b> values
+                    and <b>resetting</b>it .</p>
+                <canvas id="Canvas_l2" width="400" height="400" style="padding:10px"></canvas>
+                <p>Loss :<b id="loss_l2" style="font-weight:600"></b></p> 
+                <p>w_0 value is <input id="w_0_l2" value="100" name="w_0 value"></p>
+                <p>w_1 value is <input id="w_1_l2" value="180" name="w_1 value here"></p>
+                <div>
+                <button id="button_l2"> RESET </button>
+                <button id="step_button_l2"> STEP </button>
+                <button id="animate_button_l2"> animate </button>
+                </div>
+                </div>
+        
+
+
+        <div><p>We can see that slope/derivative is directly proportional to the value of the weight at that step.This has a profound effect on the values
+        of weights being updated.Even if we have a very small value of say w_0 and bigger value of w_1, update step 
+        will not decrease the w_0 sharply as w_1, hence w_0 remains close to zero but doesnot become zero.
+            </p>
+        </div>
+
+   
+
+
+
+
+
+        <h3> L1 NORM</h3>
+
+         <div><p>Let us see how L1 norm behaves like :</p>
+            <img src="images/L1_norm.png" width=50% ></div>
+
+
+
+
+        <div>        
+        <p>Let use see that modulus function present in L1 norm which is responsible for that dimond shape</p>
+        <img src="images/modulus.png" width=50% ></div>  
+        
+        <div>
+        <p> And so the L1 norm becomes:</p>
+        <img src="images/mod.png" width=50% ></div>
+
+
+        <p>We can see derivates are independent of variables and of constant value 1 or -1 and hence update step becomes
+        <img src="images/L1_update.png" width=50% ></p>
+
+        <div><p>It is clear that derivative is independent of the variables , we are simply decreasing the variables and if 
+        we think of these variables on a grid ,it simply becomes <b style="font-weight:600">"COORDINATE DESCENT"</b>, hence name of the algorithm given 
+        in the case of L1 norm.
+
+        As we see below once a variable becomes zero , it becomes zero..it is quite interesting.Say <b>w_0</b> is <b>0.3</b> and in next
+        step it becomes <b>-0.01</b> ,which changes the gradient to <b>-1</b> and hence it is again pushed to zero .
+        Here i am using a little big learning rate to show how it actually happens.
+        </p>
+    <img src="images/L1.gif" width="50%" height="50%">
+    </div>
+
+
+
+        <h3>Visualization</h3>
+            
+            <div style="font-family: sans-serif">
+                    <p>Use <b>step</b> button to iteratively update the weights and try new values by filling <b>w_0</b> and <b>w_1</b> values
+                    and <b>resetting</b> it .</p>
+                    <canvas id="Canvas" width="400" height="400" style="padding:10px"></canvas>
+                    <p>Loss :<b style="font-weight:600"  id="loss"></b></p>
+                    <p>w_0 value is <input id="w_0" value="100" name="w_0 value"></p>
+                    <p>w_1 value is <input id="w_1" value="180" name="w_1 value here"></p>
+                    <div>
+                    <button id="button"> RESET </button>
+                    <button id="step_button"> STEP </button>
+                    
+                    <button id="animate_button"> animate </button>
+                    </div>
+                    </div>
+
+        <h3>Comparing two norms in context of Linear Regression</h3>
+
+        Pinning a weight to ZERO has some awesome implications like <b style="font-weight:600">"FEATURE SELECTION"</b> , weight being zero means
+        we are not considering that feature to make predictions.In other words our model has found us important
+        features leaving redundant features altogether.
+
+
+
+         We saw L2 norm and L1 norm affect the weights differently ,We have already seen
+        that L2 norm decreases the weight absolute values rather discriminately as decrease in value is directly 
+        proportional to the weight value itself. Hence no weight actually becomes zero.As the weight approaches zero 
+        less and less decrement  in the corresponding value happens during update step.
+
+        While L1 norm decreases the weights equally by same amount ,and once a weight becomes zero it remains zero.
+        and other weights are continuously pushed towards zero .
+        Suppose during a dataset we encounter two features like sugar percentage and sweetness ,we know these 
+        features are highly correlated but L2 norm ends up giving equal weightage to both of them,
+        while L1 norm is quite dependent on initial weights values and one of the these features becomes zero .
+
+        <div><p>In case of non redundant features , RSS will prevent the L1 norm to put all other weightage of important features
+        to zero  as it will highly increase our RSS cost, hence only redundant features end up having zero weightage.
+        One thing we can note here that
+        either of the redundant features can end up having weight equals to zero depending on the initial position 
+        of weights and you can see for yourself that if initial weights are similar in value, then L1 norm just goes
+        bisecting the quadrant upto the center.</p></div>
+
+
+
+<h3>Next:</h3>
+<div style="padding-top:2px"><p>In the next post we will try  to visualise the Total cost and will also see how Lambda fits in the visualization and what 
+    optimal solution looks like. </p></div>        
+        
+
+    
+
+</div>
+<script src="vis.js"></script>
+<script src="L2.js"></script>
+</body>
+
+
+</html>
